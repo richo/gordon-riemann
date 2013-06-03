@@ -1,0 +1,3 @@
+[submodule "edda"]
+	path = edda
+	url = git://github.com/Netflix/edda.git
