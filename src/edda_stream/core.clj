@@ -1,6 +1,6 @@
-(ns edda-stream.core)
+(ns edda-stream.core
+  (:require [edda-stream.mongo :as m]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn find-thing []
+  (m/connect!)
+  (m/find "aws.instances" {:_id ""})) ; FIXME Insert "{reservation_id}|{timestamp}"
