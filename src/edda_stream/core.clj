@@ -5,13 +5,15 @@
            [org.joda.time DateTime]
            [scala.collection JavaConversions]))
 
+(defonce mongo-datastore
+  (memoize (fn [coll] (MongoDatastore. coll))))
+
 (defn find-thing [coll where & [limit]]
-  (let [datastore (MongoDatastore. coll)]
-    (s/scala->clj (.query datastore
-                          (s/clj->scala where)
-                          (or limit 0)
-                          (s/clj->scala #{})
-                          true))))
+  (s/scala->clj (.query (mongo-datastore coll)
+                        (s/clj->scala where)
+                        (or limit 0)
+                        (s/clj->scala #{})
+                        true)))
 
 (defn get-instance [id]
  (find-thing "aws.instances" {"_id" id}))
