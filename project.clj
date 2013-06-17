@@ -3,4 +3,5 @@
                  [org.scala-lang/scala-library "2.10.1"]
                  [riemann-clojure-client "0.2.6"]]
   :source-paths ["lib/*"
-                 "src/"])
+                 "src/"]
+  :main edda-stream.main)
