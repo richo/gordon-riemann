@@ -1,10 +1,12 @@
 (ns edda-stream.core
-  (:require [edda-stream.scala :as s])
+  (:require [edda-stream.scala :as s]
+            [riemann.client :as r])
   (:import [com.netflix.edda.mongo MongoDatastore]
            [org.joda.time DateTime]
            [scala.collection JavaConversions]))
 
-
+(defonce riemann-client
+  (memoize (fn [] (r/tcp-client :host "127.0.0.1"))))
 
 (defn find-thing [coll where & [limit]]
   (let [datastore (MongoDatastore. coll)]
