@@ -32,8 +32,10 @@
   (find-thing (or _type "aws.instances")
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
-(defn mainloop [& [since]]
-  (let [since (or since (DateTime.))]
-    (apply max (map  (fn [event]  (r/create-event event)
-                       (DateTime->int (.stime event)))
-                    (events-since since)))))
+(defn mainloop [since]
+  (let [events (events-since since)]
+    (recur (if (seq events)
+      (apply max (map  (fn [event]  (r/create-event event)
+                                      (DateTime->int (.stime event))) events))
+      (do (Thread/sleep 5000) since)))))
+
