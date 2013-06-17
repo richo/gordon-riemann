@@ -13,3 +13,10 @@
             (or limit 0)
             (s/clj->scala #{})
             true)))
+
+(defn int->DateTime [ts]
+  (.toDate (DateTime. ts)))
+
+(defn events-since [timestamp & [_type]]
+  (find-thing (or _type "aws.instances")
+              {"stime" {"$gt" (int->DateTime timestamp)}}))
