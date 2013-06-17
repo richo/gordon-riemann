@@ -2,8 +2,7 @@
   (:require [edda-stream.scala :as s]
             [edda-stream.riemann :as r])
   (:import [com.netflix.edda.mongo MongoDatastore]
-           [org.joda.time DateTime]
-           [scala.collection JavaConversions]))
+           [org.joda.time DateTime]))
 
 (defonce mongo-datastore
   (memoize (fn [coll] (MongoDatastore. coll))))
@@ -38,6 +37,4 @@
     (apply max (map  (fn [event]  (r/create-event event)
                  ; (println (.stime event))
                  (DateTime->int (.stime event)))
-     (JavaConversions/asJavaIterable (events-since since))))))
-
-
+     (events-since since)))))
