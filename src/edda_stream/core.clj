@@ -27,6 +27,8 @@
 
 (defn int->DateTime [ts]
   (.toDate (DateTime. ts)))
+(defn DateTime->int [ts]
+  (.getMillis ts))
 
 (defn events-since [timestamp & [_type]]
   (find-thing (or _type "aws.instances")
@@ -37,7 +39,7 @@
 
 (defn mainloop [& [since]]
   (let [since (or since (DateTime.))]
-    (max (map (fn [event] (create-riemann-event event)
-                (println (get event "stime"))
-                (get event "stime"))
-              (events-since since)))))
+    (apply max (map  (fn [event]  (create-riemann-event event)
+                 ; (println (.stime event))
+                 (DateTime->int (.stime event)))
+     (JavaConversions/asJavaIterable (events-since since))))))
