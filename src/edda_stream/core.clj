@@ -29,3 +29,14 @@
 (defn events-since [timestamp & [_type]]
   (find-thing (or _type "aws.instances")
               {"stime" {"$gt" (int->DateTime timestamp)}}))
+(defn create-riemann-event [ev]
+  )
+(defn mainloop [& [since]]
+  (let [since (or since (DateTime.))]
+    ; (recur
+      (max (map  (fn [event]  (create-riemann-event event)
+                                   (println (get event "stime"))
+                                   (get event "stime")
+                                   )
+     (JavaConversions/asJavaIterable (events-since since))))))
+
