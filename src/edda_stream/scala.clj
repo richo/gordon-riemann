@@ -26,6 +26,10 @@
 
 (extend-protocol Clojureable
 
+  scala.collection.Map
+  (scala->clj [m]
+    (JavaConversions/asJavaMap m))
+
   scala.collection.Iterable
   (scala->clj [coll]
     (JavaConversions/asJavaIterable coll)))
