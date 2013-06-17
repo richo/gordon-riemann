@@ -14,6 +14,15 @@
             (s/clj->scala #{})
             true)))
 
+(defn get-instance [id]
+ (find-thing "aws.instances" {"_id" id}))
+
+(defn last-instance-event [id]
+  (let [where (if (nil? id)
+                {}
+                {"id" id})]
+    (find-thing "aws.instances" where)))
+
 (defn int->DateTime [ts]
   (.toDate (DateTime. ts)))
 
