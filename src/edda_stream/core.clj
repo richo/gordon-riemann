@@ -1,12 +1,9 @@
 (ns edda-stream.core
   (:require [edda-stream.scala :as s]
-            [riemann.client :as r])
+            [edda-stream.riemann :as r])
   (:import [com.netflix.edda.mongo MongoDatastore]
            [org.joda.time DateTime]
            [scala.collection JavaConversions]))
-
-(defonce riemann-client
-  (memoize (fn [] (r/tcp-client :host "127.0.0.1"))))
 
 (defn find-thing [coll where & [limit]]
   (let [datastore (MongoDatastore. coll)]
@@ -34,12 +31,11 @@
   (find-thing (or _type "aws.instances")
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
-(defn create-riemann-event [ev]
-  )
-
 (defn mainloop [& [since]]
   (let [since (or since (DateTime.))]
-    (apply max (map  (fn [event]  (create-riemann-event event)
+    (apply max (map  (fn [event]  (r/create-event event)
                  ; (println (.stime event))
                  (DateTime->int (.stime event)))
      (JavaConversions/asJavaIterable (events-since since))))))
+
+
