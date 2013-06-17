@@ -2,34 +2,37 @@
   (import [scala Predef]
           [scala.collection JavaConverters JavaConversions]))
 
-(defprotocol Scalable
-  "Convert various Clojure data structures to immutable Scala equivalents."
-  (clj->scala [this]))
+;; Clojure/Java -> Scala
 
-(extend-protocol Scalable
+(defmulti clj->scala
+  "Convert Clojure things to Scala things."
+  class
+  :default identity)
 
-  clojure.lang.IPersistentMap
-  (clj->scala [m]
-    (-> (JavaConverters/mapAsScalaMapConverter m)
-        (.asScala)
-        (.toMap (Predef/conforms))))
+(defmethod clj->scala java.util.Map [m]
+  (-> (JavaConverters/mapAsScalaMapConverter m)
+      (.asScala)
+      (.toMap (Predef/conforms))))
 
-  clojure.lang.IPersistentSet
-  (clj->scala [s]
-    (-> (JavaConverters/asScalaSetConverter s)
-        (.asScala)
-        (.toSet))))
+(defmethod clj->scala java.util.Set [s]
+  (-> (JavaConverters/asScalaSetConverter s)
+      (.asScala)
+      (.toSet)))
 
-(defprotocol Clojureable
-  "Convert Scala things into Clojure things."
-  (scala->clj [this]))
+;; Scala -> Clojure/Java
 
-(extend-protocol Clojureable
+(defmulti scala->clj
+  "Convert Scala things to Clojure things"
+  class)
 
-  scala.collection.Map
-  (scala->clj [m]
-    (JavaConversions/asJavaMap m))
+(defmethod scala->clj scala.collection.Map [m]
+  (into {} (map (fn [[k v]]
+                  [(if k (scala->clj k))
+                   (if v (scala->clj v))])
+                (JavaConversions/asJavaMap m))))
 
-  scala.collection.Iterable
-  (scala->clj [coll]
-    (JavaConversions/asJavaIterable coll)))
+(defmethod scala->clj scala.collection.Iterable [coll]
+  (map scala->clj (JavaConversions/asJavaIterable coll)))
+
+(defmethod scala->clj java.lang.Object [x]
+  x)
