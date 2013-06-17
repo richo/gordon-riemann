@@ -35,6 +35,5 @@
 (defn mainloop [& [since]]
   (let [since (or since (DateTime.))]
     (apply max (map  (fn [event]  (r/create-event event)
-                 ; (println (.stime event))
-                 (DateTime->int (.stime event)))
-     (events-since since)))))
+                       (DateTime->int (.stime event)))
+                    (events-since since)))))
