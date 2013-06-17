@@ -8,11 +8,11 @@
 
 (defn find-thing [coll where & [limit]]
   (let [datastore (MongoDatastore. coll)]
-    (.query datastore
-            (s/clj->scala where)
-            (or limit 0)
-            (s/clj->scala #{})
-            true)))
+    (s/scala->clj (.query datastore
+                          (s/clj->scala where)
+                          (or limit 0)
+                          (s/clj->scala #{})
+                          true))))
 
 (defn get-instance [id]
  (find-thing "aws.instances" {"_id" id}))
@@ -29,14 +29,13 @@
 (defn events-since [timestamp & [_type]]
   (find-thing (or _type "aws.instances")
               {"stime" {"$gt" (int->DateTime timestamp)}}))
+
 (defn create-riemann-event [ev]
   )
+
 (defn mainloop [& [since]]
   (let [since (or since (DateTime.))]
-    ; (recur
-      (max (map  (fn [event]  (create-riemann-event event)
-                                   (println (get event "stime"))
-                                   (get event "stime")
-                                   )
-     (JavaConversions/asJavaIterable (events-since since))))))
-
+    (max (map (fn [event] (create-riemann-event event)
+                (println (get event "stime"))
+                (get event "stime"))
+              (events-since since)))))

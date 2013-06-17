@@ -19,3 +19,13 @@
     (-> (JavaConverters/asScalaSetConverter s)
         (.asScala)
         (.toSet))))
+
+(defprotocol Clojureable
+  "Convert Scala things into Clojure things."
+  (scala->clj [this]))
+
+(extend-protocol Clojureable
+
+  scala.collection.Iterable
+  (scala->clj [coll]
+    (JavaConversions/asJavaIterable coll)))
