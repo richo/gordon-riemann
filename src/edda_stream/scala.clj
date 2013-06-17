@@ -27,12 +27,12 @@
 
 (defmethod scala->clj scala.collection.Map [m]
   (into {} (map (fn [[k v]]
-                  [(if k (scala->clj k))
-                   (if v (scala->clj v))])
+                  [(scala->clj k)
+                   (scala->clj v)])
                 (JavaConversions/asJavaMap m))))
 
 (defmethod scala->clj scala.collection.Iterable [coll]
   (map scala->clj (JavaConversions/asJavaIterable coll)))
 
-(defmethod scala->clj java.lang.Object [x]
+(defmethod scala->clj :default [x]
   x)
