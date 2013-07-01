@@ -1,6 +1,6 @@
-(ns edda-stream.riemann
+(ns gordon.edda.riemann
   (:require [riemann.client :as r]
-            [edda-stream.scala :as s]))
+            [gordon.edda.scala :as s]))
 
 (defonce riemann-client
   (memoize (fn [] (r/tcp-client :host "127.0.0.1"))))

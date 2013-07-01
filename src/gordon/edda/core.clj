@@ -1,6 +1,6 @@
-(ns edda-stream.core
-  (:require [edda-stream.scala :as s]
-            [edda-stream.riemann :as r])
+(ns gordon.edda.core
+  (:require [gordon.edda.scala :as s]
+            [gordon.edda.riemann :as r])
   (:import [com.netflix.edda.mongo MongoDatastore]
            [org.joda.time DateTime]))
 

@@ -10,4 +10,4 @@
   :source-paths ["resources" ; This must be first because Reasons.
                  "lib/*"
                  "src"]
-  :main edda-stream.main)
+  :main gordon.edda.main)

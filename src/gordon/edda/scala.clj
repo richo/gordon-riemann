@@ -1,4 +1,4 @@
-(ns edda-stream.scala
+(ns gordon.edda.scala
   (import [scala Predef]
           [scala.collection JavaConverters JavaConversions]))
 
