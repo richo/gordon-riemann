@@ -1,6 +1,6 @@
-.PHONY: clean mongoproxy
+.PHONY: clean mongoproxy riemann-server
 
-all: lib
+all: lib riemann-server
 
 lib: edda/build/exploded
 	mkdir -p lib
@@ -17,6 +17,15 @@ edda/build/libs: edda
 	./gradlew build
 
 edda:
+	git submodule update --init
+
+riemann-server: riemann/target
+
+
+riemann/target: riemann
+	cd riemann; lein install
+
+riemann:
 	git submodule update --init
 
 clean:
