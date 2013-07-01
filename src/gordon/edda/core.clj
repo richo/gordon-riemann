@@ -1,6 +1,7 @@
 (ns gordon.edda.core
   (:require [gordon.edda.scala :as s]
-            [gordon.edda.riemann :as r])
+            [gordon.edda.riemann :as r]
+            [clojure.tools.logging :as log])
   (:import [com.netflix.edda.mongo MongoDatastore]
            [org.joda.time DateTime]))
 
@@ -33,6 +34,7 @@
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
 (defn mainloop [since]
+  (log/warn "Entering mainloop")
   (let [events (events-since since)]
     (recur (if (seq events)
       (apply max (map (fn [event]
