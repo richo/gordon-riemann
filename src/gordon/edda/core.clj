@@ -34,7 +34,6 @@
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
 (defn mainloop [since]
-  (log/warn "Entering mainloop")
   (let [events (events-since since)]
     (recur (if (seq events)
       (apply max (map (fn [event]
