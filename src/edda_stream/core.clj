@@ -28,8 +28,8 @@
 (defn DateTime->int [ts]
   (.getMillis ts))
 
-(defn events-since [timestamp & [_type]]
-  (find-thing (or _type "aws.instances")
+(defn events-since [timestamp & [type]]
+  (find-thing (or type "aws.instances")
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
 (defn mainloop [since]
