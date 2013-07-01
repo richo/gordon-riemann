@@ -11,9 +11,12 @@
 (defn get-instance-name [instance]
   (get (first (get instance "instances")) "instanceId"))
 
-; TODO
+(defn extract-tags [tags]
+  (into {} (map (fn [t]
+             [(get t "key") (get t "value")])
+       tags)))
 (defn get-instance-role [instance]
-  (get (first (get instance "instances")) "instanceId"))
+  (get (extract-tags (get (first (get instance "instances")) "tags"))) "Role")
 
 
 (defn state->metric [state]
