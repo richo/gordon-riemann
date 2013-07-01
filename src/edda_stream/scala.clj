@@ -6,8 +6,7 @@
 
 (defmulti clj->scala
   "Convert Clojure things to Scala things."
-  class
-  :default identity)
+  class)
 
 (defmethod clj->scala java.util.Map [m]
   (-> (JavaConverters/mapAsScalaMapConverter m)
@@ -18,6 +17,9 @@
   (-> (JavaConverters/asScalaSetConverter s)
       (.asScala)
       (.toSet)))
+
+(defmethod clj->scala :default [x]
+  x)
 
 ;; Scala -> Clojure/Java
 
