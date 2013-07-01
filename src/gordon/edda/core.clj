@@ -37,6 +37,7 @@
   (let [events (events-since since)]
     (recur (if (seq events)
       (apply max (map (fn [event]
+                        (log/warn "Dispatching event " event " to riemann")
                         (r/create-event event)
                         (DateTime->int (.stime event)))
                       events))
