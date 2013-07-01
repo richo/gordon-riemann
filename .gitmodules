@@ -1,3 +1,6 @@
 [submodule "edda"]
 	path = edda
 	url = git://github.com/Netflix/edda.git
+[submodule "riemann"]
+	path = riemann
+	url = git://github.com/aphyr/riemann.git
