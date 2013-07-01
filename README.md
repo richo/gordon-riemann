@@ -2,6 +2,8 @@
 
 Tools for connecting [Edda][1] with [Riemann][2].
 
+![Logo](https://github.com/richo/gordon-riemann/wiki/gordon.jpg)
+
 
 ## What
 
