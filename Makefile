@@ -9,12 +9,10 @@ lib: edda/build/exploded
 
 edda/build/exploded: edda/build/libs
 	mkdir -p edda/build/exploded
-	cd edda/build/exploded
-	jar -xf ../libs/edda-2.1-SNAPSHOT.war
+	cd edda/build/exploded; jar -xf ../libs/edda-2.1-SNAPSHOT.war
 
 edda/build/libs: edda
-	cd edda
-	./gradlew build
+	cd edda; ./gradlew build
 
 edda:
 	git submodule update --init
