@@ -35,7 +35,8 @@
 (defn mainloop [since]
   (let [events (events-since since)]
     (recur (if (seq events)
-      (apply max (map  (fn [event]  (r/create-event event)
-                                      (DateTime->int (.stime event))) events))
+      (apply max (map (fn [event]
+                        (r/create-event event)
+                        (DateTime->int (.stime event)))
+                      events))
       (do (Thread/sleep 5000) since)))))
-

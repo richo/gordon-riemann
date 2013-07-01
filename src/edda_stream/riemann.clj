@@ -7,13 +7,12 @@
 
 (defn get-instance-state [instance]
   (case (get-in (first (get instance "instances")) ["state" "name"])
-        "running" "1"
-        "terminated" "0"
-        "stopping" "0"
-        "stopped" "0"
-        "shutting-down" "0"
+    "running" "1"
+    "terminated" "0"
+    "stopping" "0"
+    "stopped" "0"
+    "shutting-down" "0"
     nil))
-
 
 (defn get-instance-name [instance]
   (get (first (get instance "instances")) "instanceId"))
@@ -21,4 +20,5 @@
 (defn create-event [ev]
   (let [data (s/scala->clj (.data (s/scala->clj ev)))]
     (r/send-event (riemann-client)
-                {:service (get-instance-name data) :state (get-instance-state data)})))
+                  {:service (get-instance-name data)
+                   :state (get-instance-state data)})))
