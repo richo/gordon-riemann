@@ -18,6 +18,7 @@ edda:
 	git submodule update --init
 
 riemann-server: riemann/target
+	cd riemann; lein run
 
 
 riemann/target: riemann
