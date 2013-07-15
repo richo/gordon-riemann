@@ -38,7 +38,7 @@
     (recur table (if (seq events)
       (apply max (map (fn [event]
                         (log/warn "Dispatching event " event " to riemann")
-                        (r/create-event event)
+                        (r/create-event table event)
                         (DateTime->int (.stime event)))
                       events))
       (do (Thread/sleep 5000) since)))))
