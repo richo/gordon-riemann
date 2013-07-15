@@ -1,4 +1,4 @@
-.PHONY: clean mongoproxy riemann-server riemann-jar
+.PHONY: clean mongoproxy riemann-server riemann-jar test
 
 all: lib riemann-server
 
@@ -33,3 +33,7 @@ clean:
 
 mongoproxy:
 	ssh -L27017:localhost:27017 $(MONGOHOST)
+
+
+test:
+	lein test
