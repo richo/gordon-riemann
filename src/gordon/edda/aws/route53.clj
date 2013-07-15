@@ -5,5 +5,5 @@
   (get-in record ["data" "name"]))
 
 (defn hostedRecord->event [record]
-  {:host (get-host record) :service "hostedRecords"
    :_id (s/record->_id record)})
+  {:host (get-host record) :service "gordon-riemann"

@@ -24,6 +24,6 @@
         "shutting-down" 8))
 
 (defn instance->event [instance]
-  {:host (get-instance-name instance) :service (get-instance-role instance)
+  {:host (get-instance-name instance) :service "gordon-riemann"
    :state (get-instance-state instance) :metric (state->metric (get-instance-state instance))
    :_id (s/record->_id instance)})
