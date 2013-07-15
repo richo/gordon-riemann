@@ -38,3 +38,8 @@
 
 (defmethod scala->clj :default [x]
   x)
+
+(defn record->_id [rec]
+  "Extract the id directly, as the _id field doesn't exist on the Record"
+  ; @ see edda/src/main/scala/com/netflix/edda/mongo/MongoDatastore.scala:87
+  (clojure.string/join "|" [(.id rec) (.stime rec)]))
