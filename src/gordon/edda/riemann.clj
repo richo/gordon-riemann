@@ -13,7 +13,11 @@
     "aws.hostedRecords" route53/hostedRecord->event
     ))
 
+(defn base-event [ev]
+  {:_id (s/record->_id ev)
+   :_service "gordon-riemann"})
+
 (defn create-event [table ev]
   (let [data (s/scala->clj (.data (s/scala->clj ev)))]
     (r/send-event (riemann-client)
-                  (into {:_id (s/record->_id ev)} ((event-factory table) data)))))
+                  (into (base-event ev) ((event-factory table) data)))))
