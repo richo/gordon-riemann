@@ -16,4 +16,4 @@
 (defn create-event [table ev]
   (let [data (s/scala->clj (.data (s/scala->clj ev)))]
     (r/send-event (riemann-client)
-                  ((event-factory table) data))))
+                  (into {:_id (s/record->_id ev)} ((event-factory table) data)))))

@@ -1,5 +1,4 @@
-(ns gordon.edda.aws.ec2
-  (:require [gordon.edda.scala :as s]))
+(ns gordon.edda.aws.ec2)
 
 (defn get-instance-state [instance]
   (get-in (first (get instance "instances")) ["state" "name"]))
@@ -26,4 +25,4 @@
 (defn instance->event [instance]
   {:host (get-instance-name instance) :service "gordon-riemann"
    :state (get-instance-state instance) :metric (state->metric (get-instance-state instance))
-   :_id (s/record->_id instance)})
+   })
