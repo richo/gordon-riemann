@@ -1,4 +1,4 @@
-.PHONY: clean mongoproxy riemann-server
+.PHONY: clean mongoproxy riemann-server riemann-jar
 
 all: lib riemann-server
 
@@ -17,12 +17,13 @@ edda/build/libs: edda
 edda:
 	git submodule update --init
 
-riemann-server: riemann/target
-	cd riemann; lein run
+riemann-server: riemann-jar
+	java -cp "resources":"lib":"src" -jar riemann/target/riemann-0.2.3-SNAPSHOT-standalone.jar riemann.config
 
+riemann/target/riemann-0.2.3-SNAPSHOT-standalone.jar: riemann
+	cd riemann; lein uberjar
 
-riemann/target: riemann
-	cd riemann; lein install
+riemann-jar: riemann/target/riemann-0.2.3-SNAPSHOT-standalone.jar
 
 riemann:
 	git submodule update --init
