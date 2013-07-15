@@ -29,16 +29,22 @@
 (defn DateTime->int [ts]
   (.getMillis ts))
 
-(defn events-since [timestamp & [type]]
-  (find-thing (or type "aws.instances")
+(defn events-since [timestamp table]
+  (find-thing table
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
-(defn mainloop [since]
-  (let [events (events-since since)]
-    (recur (if (seq events)
+(defn mainthread [table since]
+  (let [events (events-since since table)]
+    (recur table (if (seq events)
       (apply max (map (fn [event]
                         (log/warn "Dispatching event " event " to riemann")
                         (r/create-event event)
                         (DateTime->int (.stime event)))
                       events))
       (do (Thread/sleep 5000) since)))))
+
+(defn mainloop [tables since]
+  (let [threads (map (fn [table]
+                       (Thread. (fn [] (mainthread table since)))) tables)]
+    (doseq [thread threads] (.start thread))
+    (doseq [thread threads] (.join thread))))

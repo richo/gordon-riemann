@@ -7,4 +7,4 @@
 
 (defn -main []
   (log/warn "gordon is initialized")
-  (mainloop (DateTime/now)))
+  (mainloop ["aws.instances" "aws.hostedRecords"] (DateTime/now)))
