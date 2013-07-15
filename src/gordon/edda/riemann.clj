@@ -15,9 +15,9 @@
   (into {} (map (fn [t]
              [(get t "key") (get t "value")])
        tags)))
-(defn get-instance-role [instance]
-  (get (extract-tags (get (first (get instance "instances")) "tags"))) "Role")
 
+(defn get-instance-role [instance]
+  (get (extract-tags (get (first (get instance "instances")) "tags")) "Role"))
 
 (defn state->metric [state]
   (case state
