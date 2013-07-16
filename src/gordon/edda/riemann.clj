@@ -18,6 +18,6 @@
    :service "gordon-riemann"})
 
 (defn create-event [table ev]
-  (let [data (s/scala->clj (.data (s/scala->clj ev)))]
-    (r/send-event (riemann-client)
-                  (into (base-event ev) ((event-factory table) data)))))
+  (let [data (s/scala->clj (.data (s/scala->clj ev)))
+        payload (into (base-event ev) ((event-factory table) data))]
+    (r/send-event (riemann-client) payload)))
