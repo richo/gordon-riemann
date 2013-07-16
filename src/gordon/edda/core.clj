@@ -37,7 +37,7 @@
   (let [events (events-since since table)]
     (recur table (if (seq events)
       (apply max (map (fn [event]
-                        (log/warn "Dispatching event " event " to riemann. ID: " (s/record->_id event))
+                        (log/warn "Dispatching event " event)
                         (r/create-event table event)
                         (DateTime->int (.stime event)))
                       events))
