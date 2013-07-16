@@ -15,7 +15,7 @@
 
 (defn base-event [ev]
   {:_id (s/record->_id ev)
-   :_service "gordon-riemann"})
+   :service "gordon-riemann"})
 
 (defn create-event [table ev]
   (let [data (s/scala->clj (.data (s/scala->clj ev)))]
