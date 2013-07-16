@@ -3,6 +3,9 @@
 
 (def handlers (atom []))
 
+(defn get-handlers []
+  (deref handlers))
+
 (defn set-handlers [handlers]
   (swap! handlers (fn [old] handlers)))
 
