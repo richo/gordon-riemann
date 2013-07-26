@@ -36,4 +36,5 @@ mongoproxy:
 
 
 test:
+	git submodule update --init
 	lein test
