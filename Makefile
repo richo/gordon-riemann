@@ -38,3 +38,10 @@ mongoproxy:
 test:
 	git submodule update --init
 	lein test
+
+
+script/tmux-dev.tmux: script/tmux-dev
+	bash script/tmux-dev > script/tmux-dev.tmux
+
+tmux-dev: script/tmux-dev.tmux
+	tmux source ${PWD}/script/tmux-dev.tmux
