@@ -32,7 +32,7 @@ clean:
 	rm -rf lib edda/build
 
 mongoproxy:
-	ssh -L27017:localhost:27017 $(MONGOHOST)
+	ssh -NL27017:localhost:27017 $(MONGOHOST)
 
 
 test:
