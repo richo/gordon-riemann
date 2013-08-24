@@ -15,9 +15,6 @@
                         (s/clj->scala #{})
                         true)))
 
-(defn get-instance [id]
- (find-in-table "aws.instances" {"_id" id}))
-
 (defn int->DateTime [ts]
   (.toDate (DateTime. ts)))
 (defn DateTime->int [ts]
