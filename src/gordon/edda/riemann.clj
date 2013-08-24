@@ -2,6 +2,7 @@
   (:require [riemann.client :as r]
             [gordon.edda.scala :as s]
             [gordon.edda.aws.ec2 :as ec2]
+            [gordon.edda.aws.autoscaling :as autoscaling]
             [gordon.edda.aws.route53 :as route53]))
 
 (defonce riemann-client
@@ -11,6 +12,7 @@
   (case typ
     "aws.instances" ec2/instance->event
     "aws.hostedRecords" route53/hostedRecord->event
+    "aws.autoScalingGroups" autoscaling/group->event
     ))
 
 (defn base-event [ev]
