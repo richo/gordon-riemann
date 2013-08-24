@@ -8,7 +8,7 @@
 (defonce mongo-datastore
   (memoize (fn [coll] (MongoDatastore. coll))))
 
-(defn find-thing [coll where & [limit]]
+(defn find-in-table [coll where & [limit]]
   (s/scala->clj (.query (mongo-datastore coll)
                         (s/clj->scala where)
                         (or limit 0)
@@ -16,7 +16,7 @@
                         true)))
 
 (defn get-instance [id]
- (find-thing "aws.instances" {"_id" id}))
+ (find-in-table "aws.instances" {"_id" id}))
 
 (defn int->DateTime [ts]
   (.toDate (DateTime. ts)))
@@ -24,7 +24,7 @@
   (.getMillis ts))
 
 (defn events-since [timestamp table]
-  (find-thing table
+  (find-in-table table
               {"stime" {"$gt" (int->DateTime timestamp)}}))
 
 (defn mainthread [table since]
