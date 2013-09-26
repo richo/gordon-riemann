@@ -1,4 +1,6 @@
-(ns gordon.edda.aws.ec2)
+(ns gordon.edda.aws.ec2
+  (:use [gordon.riemann.aws.credentials :as credentials])
+  (:import [com.amazonaws.services.ec2 AmazonEC2Client]))
 
 (defn get-instance-state [instance]
   (get-in (first (get instance "instances")) ["state" "name"]))
@@ -26,3 +28,10 @@
   {:host (get-instance-name instance) :_table "aws.instances"
    :state (get-instance-state instance) :metric (state->metric (get-instance-state instance))
    })
+
+;; Stuff that backs directly onto ec2
+;;
+
+;; TODO Support injection credentials, and other regions
+(defn ec2Client []
+  (new AmazonEC2Client (credentials/awsCredentials)))
