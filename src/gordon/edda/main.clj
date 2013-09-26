@@ -2,7 +2,9 @@
 
 (ns gordon.edda.main
   (:require [clojure.tools.logging :as log])
-  (:use [gordon.edda.core :only (mainloop)])
+  (:use [gordon.edda.core :only (mainloop)]
+        [gordon.riemann.provisioner.ssh :as ssh]
+        )
   (:import [org.joda.time DateTime]))
 
 (defn -main []
