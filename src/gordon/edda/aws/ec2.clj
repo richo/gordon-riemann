@@ -22,7 +22,8 @@
         "terminated" 1
         "stopping" 2
         "stopped" 4
-        "shutting-down" 8))
+        "shutting-down" 8
+        "pending" 16))
 
 (defn instance->event [instance]
   {:host (get-instance-name instance) :_table "aws.instances"
