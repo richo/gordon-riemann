@@ -21,6 +21,8 @@
       (if debug (println (:out ret)))
       (:exit ret))))
 
+(def github-host-key
+  (execute-and-return "ssh-keyscan github.com >> .ssh/known_hosts"))
 
 (def babushka
   (execute-and-return "wget -O - https://babushka.me/up | sudo bash"))
@@ -34,4 +36,4 @@
           ret)))))
 
 (defn provision [host provisioner]
-  (run-provisioners (ssh-to host) [babushka provisioner]))
+  (run-provisioners (ssh-to host) [babushka github-host-key provisioner]))
