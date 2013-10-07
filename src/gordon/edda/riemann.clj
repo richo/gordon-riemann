@@ -16,7 +16,8 @@
     ))
 
 (defn base-event [ev]
-  {:_id (s/record->_id ev)
+  {:_uid (s/record->_id ev)
+   :_id (.id ev)
    :service "gordon-riemann"})
 
 (defn create-event [table ev]
