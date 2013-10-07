@@ -16,6 +16,9 @@
 (defn get-instance-role [instance]
   (get (extract-tags (get (first (get instance "instances")) "tags")) "Role"))
 
+(defn get-public-dns [instance]
+  (get (first (get instance "instances")) "publicDnsName"))
+
 (defn state->metric [state]
   (case state
         "running" 0
@@ -28,7 +31,9 @@
 (defn instance->event [instance]
   {:host (get-instance-name instance) :_table "aws.instances"
    :state (get-instance-state instance) :metric (state->metric (get-instance-state instance))
+   :public_dns (get-public-dns instance)
    })
+
 
 ;; Stuff that backs directly onto ec2
 ;;
