@@ -1,7 +1,7 @@
 #!/bin/sh
 pwd=`pwd`
 cat <<EOF
-new-window 'bash -c "echo booting the Gordon repl; cd $pwd; lein repl"'
+new-window 'bash -c "echo booting the Gordon repl; cd $pwd; lein repl :connect 5557"'
 split-window -v 'bash -c "cd $pwd; make riemann-server"'
 split-window -v 'bash -c "cd $pwd; make mongoproxy"'
 resize-pane -D 10
