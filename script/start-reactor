@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo Starting the reactor
+echo "(use 'gordon.edda.main)\n(-main)" | lein repl :connect 5557
+sleep 15
