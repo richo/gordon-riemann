@@ -1,7 +1,7 @@
 (ns gordon.riemann.core
   )
 
-(def handlers (atom []))
+(defonce handlers (atom []))
 
 (defn get-handlers []
   (deref handlers))
