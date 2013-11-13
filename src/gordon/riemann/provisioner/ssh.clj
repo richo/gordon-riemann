@@ -20,7 +20,7 @@
 (defn execute-and-return [cmd]
   (fn [host]
     (let [ret (ssh/ssh host {:cmd cmd :out :stream :agent-forwarding true})]
-      (io/copy (:out-stream ret) (log/log-stream :info "SSH OUTPUT"))
+      (io/copy (:out-stream ret) (log/log-stream :info (.getHost host)))
       (:exit (.getExitStatus (:channel ret))))))
 
 (def github-host-key
