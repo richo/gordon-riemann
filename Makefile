@@ -18,12 +18,12 @@ edda:
 	git submodule update --init
 
 riemann-server: riemann-jar gordon-jar
-	java -cp "resources":"lib/*":"src":"riemann/target/uberjar+provided/riemann-0.2.3-SNAPSHOT-standalone.jar":"target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar" riemann.bin riemann.config
+	java -cp "resources":"lib/*":"src":"riemann/target/riemann-0.2.3-standalone.jar":"target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar" riemann.bin riemann.config
 
-riemann/target/uberjar+provided/riemann-0.2.3-SNAPSHOT-standalone.jar: riemann
+riemann/target/riemann-0.2.3-standalone.jar: riemann
 	cd riemann; lein uberjar
 
-riemann-jar: riemann/target/uberjar+provided/riemann-0.2.3-SNAPSHOT-standalone.jar
+riemann-jar: riemann/target/riemann-0.2.3-standalone.jar
 
 target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar:
 	lein uberjar
