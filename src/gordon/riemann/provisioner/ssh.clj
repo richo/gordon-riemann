@@ -1,5 +1,7 @@
 (ns gordon.riemann.provisioner.ssh
-  (:require [clj-ssh.ssh :as ssh]))
+  (:require [clj-ssh.ssh :as ssh]
+            [clojure.tools.logging :as log]
+            [clojure.java.io :as io]))
 
 (def ssh-agent
   (ssh/ssh-agent {}))
@@ -17,9 +19,9 @@
 
 (defn execute-and-return [cmd]
   (fn [host]
-    (let [ret (ssh/ssh host {:in cmd :agent-forwarding true})]
-      (if debug (println (:out ret)))
-      (:exit ret))))
+    (let [ret (ssh/ssh host {:cmd cmd :out :stream :agent-forwarding true})]
+      (io/copy (:out-stream ret) (log/log-stream :info "SSH OUTPUT"))
+      (:exit (.getExitStatus (:channel ret))))))
 
 (def github-host-key
   (execute-and-return "ssh-keyscan github.com >> .ssh/known_hosts"))
