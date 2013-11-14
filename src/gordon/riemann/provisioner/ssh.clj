@@ -21,7 +21,7 @@
   (fn [host]
     (let [ret (ssh/ssh host {:cmd cmd :out :stream :agent-forwarding true})]
       (io/copy (:out-stream ret) (log/log-stream :info (.getHost host)))
-      (:exit (.getExitStatus (:channel ret))))))
+      (.getExitStatus (:channel ret)))))
 
 (def github-host-key
   (execute-and-return "ssh-keyscan github.com >> .ssh/known_hosts"))
