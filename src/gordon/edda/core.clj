@@ -34,8 +34,21 @@
                       events))
       (do (Thread/sleep 5000) since)))))
 
+; Shamelessly lifted from riemann
+(defn handle-signals
+  "Sets up POSIX signal handlers."
+  []
+  (if (not (.contains (. System getProperty "os.name") "Windows"))
+    (sun.misc.Signal/handle
+      (sun.misc.Signal. "INT")
+      (proxy [sun.misc.SignalHandler] []
+        (handle [sig]
+          (log/warn "Caught SIGINT, burning world state with fire")
+          (System/exit 0))))))
+
 (defn mainloop [tables since]
   (let [threads (map (fn [table]
                        (Thread. (fn [] (mainthread table since)))) tables)]
+    (handle-signals)
     (doseq [thread threads] (.start thread))
     (doseq [thread threads] (.join thread))))
