@@ -1,6 +1,6 @@
 .PHONY: clean mongoproxy riemann-server riemann-jar test
 
-all: lib riemann-server
+all: riemann-server
 
 lib: edda/build/exploded
 	mkdir -p lib
@@ -25,7 +25,7 @@ riemann/target/riemann-0.2.3-standalone.jar: riemann
 
 riemann-jar: riemann/target/riemann-0.2.3-standalone.jar
 
-target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar:
+target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar: lib
 	lein uberjar
 
 gordon-jar: target/gordon-riemann-0.1.0-SNAPSHOT-standalone.jar
