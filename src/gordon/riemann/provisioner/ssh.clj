@@ -21,21 +21,23 @@
   (fn [host]
     (let [ret (ssh/ssh host {:cmd cmd :out :stream :agent-forwarding true})]
       (io/copy (:out-stream ret) (log/log-stream :info (.getHost host)))
-      (.getExitStatus (:channel ret)))))
-
-(def github-host-key
-  (execute-and-return "ssh-keyscan github.com >> .ssh/known_hosts"))
+      (fn [] (.getExitStatus (:channel ret))))))
 
 (def babushka
   (execute-and-return "wget -O - https://babushka.me/up | sudo bash"))
+
+(def no-host-key-checking
+  (execute-and-return "mkdir .ssh; chmod 700 .ssh; echo 'host github.com\n\tStrictHostKeyChecking no' >> .ssh/config"))
 
 (defn- run-provisioners [host provisioners]
   (let [provisioner (first provisioners)]
     (if (nil? provisioner) 0
       (let [ret (provisioner host)]
-        (if (= 0 ret)
+        (log/info "provisioner exited" (ret))
+        (while (= (ret) -1) (Thread/sleep 500))
+        (if (= 0 (ret))
           (recur host (rest provisioners))
           ret)))))
 
 (defn provision [host provisioner]
-  (run-provisioners (ssh-to host) [babushka github-host-key provisioner]))
+  (run-provisioners (ssh-to host) [babushka no-host-key-checking provisioner]))
