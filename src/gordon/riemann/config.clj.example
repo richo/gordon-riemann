@@ -1,0 +1,4 @@
+(ns gordon.riemann.config)
+
+(def hipchat-key "aaaaa")
+(def hipchat-room 1234)
